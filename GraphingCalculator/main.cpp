@@ -175,6 +175,7 @@ void update()
     drawAxis(ax1);
     Axis ax2(5,"time");
     drawAxis(ax2);
+    drawAxis(ax2);
 }
 
 int main(int argc, char* argv[])
