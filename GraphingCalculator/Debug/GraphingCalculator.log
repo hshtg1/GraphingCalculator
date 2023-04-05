@@ -1,0 +1,7 @@
+﻿main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _S2D_DrawLine przywołany w funkcji "void __cdecl update(void)" (?update@@YAXXZ)
+main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _S2D_DrawCircle przywołany w funkcji "void __cdecl update(void)" (?update@@YAXXZ)
+main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _S2D_CreateWindow przywołany w funkcji _SDL_main
+main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _S2D_Show przywołany w funkcji _SDL_main
+MSVCRTD.lib(exe_main.obj) : error LNK2019: nierozpoznany symbol zewnętrzny _main przywołany w funkcji "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\vslib\simple2d\simple2d.lib : warning LNK4272: wystąpił konflikt typu maszyny biblioteki „x64” z typem maszyny docelowej „x86”
+C:\Users\Mateusz\source\repos\GraphingCalculator\Debug\GraphingCalculator.exe : fatal error LNK1120: liczba nierozpoznanych elementów zewnętrznych: 5
