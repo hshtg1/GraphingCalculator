@@ -46,9 +46,15 @@ enum rotation
     vertical,horizontal
 };
 
+struct Zero_return
+{
+    float Opoint;
+    bool start_lower;
+};
+
 class Axis
 {
-    friend void drawAxis(Axis axis, float Opoint);
+    friend void drawAxis(Axis axis, Zero_return zero);
     std::vector<float> px_coor;
     std::vector<int> coor;
     int n_scale,middle_offset;
@@ -93,12 +99,26 @@ public:
             std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
         }
     }
-    float CalculateZero() 
+    Zero_return CalculateZero() 
     {
         int l = (rot == horizontal) ? width : height;
-        int lower_range = (abs(range_start) > abs(range_end)) ? range_end : range_start;
+        int lower_range;
+        bool start_lower;
+        if (abs(range_start) > abs(range_end))
+        {
+            lower_range = range_end;
+            start_lower = false;
+        }
+        else
+        {
+            lower_range = range_start;
+            start_lower = true;
+        }
         float Opoint = ((l-2*axis_offset)* (float)abs(lower_range) / (float)(range_end - range_start))+axis_offset;
-        return Opoint;
+        Zero_return zero;
+        zero.start_lower = start_lower;
+        zero.Opoint = Opoint;
+        return zero;
     }
     void set_middle_offset(float mo)
     {
@@ -111,16 +131,15 @@ void drawFunc(Function& func)
 
 }
 
-void drawAxis(Axis axis, float Opoint)
+void drawAxis(Axis axis, Zero_return zero)
 {
-    float middle = Opoint;
+    float middle = zero.Opoint;
     if (axis.rot == horizontal)
     {
-        /*if (abs(axis.range_start) > abs(axis.range_end))
+        if (zero.start_lower)
         {
-            middle = height-Opoint;
-        }*/
-        //if (Opoint == 0) middle = height / 2;
+            middle = height-middle;
+        }
         S2D_DrawLine(axis.axis_offset, middle+axis.middle_offset, width - axis.axis_offset, middle + axis.middle_offset,
             axis.lineWidth,
             0, 0, 0, 1,
@@ -148,11 +167,10 @@ void drawAxis(Axis axis, float Opoint)
     }
     else
     {
-        /*if (abs(axis.range_start) < abs(axis.range_end))
+        if (!zero.start_lower)
         {
-            middle = height - Opoint;
-        }*/
-        //if (Opoint == 0) middle = width/2;
+            middle = width - zero.Opoint;
+        }
         S2D_DrawLine(middle + axis.middle_offset, axis.axis_offset, middle + axis.middle_offset, height - axis.axis_offset,
             axis.lineWidth,
             0, 0, 0, 1,
@@ -200,10 +218,8 @@ void render()
 
 void update()
 {
-    Axis ax1(10, "Y", vertical, -100, 200);
-    Axis ax2(10, "time", horizontal, -900, 1000);
-    std::cout << ax2.CalculateZero() << std::endl;
-    std::cout << ax1.CalculateZero() << std::endl;
+    Axis ax1(10, "Y", vertical, -1, 1);
+    Axis ax2(20, "time", horizontal, -200, 200);
     drawAxis(ax1, ax2.CalculateZero());
     drawAxis(ax2, ax1.CalculateZero());
 }
