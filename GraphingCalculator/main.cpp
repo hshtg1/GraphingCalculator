@@ -8,9 +8,9 @@ class Function;
 void render();
 void update();
 
-const int width = 1000, height = 600;
+const int width = 800, height = 600;
 
-class Point
+struct Point
 {
     float x, y;
 };
@@ -46,9 +46,15 @@ enum rotation
     vertical,horizontal
 };
 
+struct Zero_return
+{
+    float Opoint;
+    bool start_lower;
+};
+
 class Axis
 {
-    friend void drawAxis(Axis axis);
+    friend void drawAxis(Axis axis, Zero_return zero);
     std::vector<float> px_coor;
     std::vector<int> coor;
     int n_scale,middle_offset;
@@ -71,9 +77,9 @@ class Axis
         }
     }
 public:
-    Axis(int sc = 200,std::string n = "X", rotation rt = horizontal, int st = -100, int e = 100, float aof = 30, int w = 3)
+    Axis(int sc = 200, std::string n = "X", rotation rt = horizontal, int st = -100, int e = 100, float aof = 30, int w = 3)
     {
-        if (st < e)
+        if (st < e && (!(st + e >= abs(st) + abs(e)) || st==0))
         {
             n_scale = sc;
             name = n;
@@ -84,10 +90,39 @@ public:
             lineWidth = w;
             calculatePoints();
         }
+        else if(st + e >= abs(st) + abs(e))
+        {
+            std::cout << "Invalid data! This axis doesn't contain a zero!" << std::endl;
+        }
         else
         {
-            std::cout << "Invalid data! range_start cannot be of a larger value than range_end!";
+            std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
         }
+    }
+    Zero_return CalculateZero() 
+    {
+        int l = (rot == horizontal) ? width : height;
+        int lower_range;
+        bool start_lower;
+        if (abs(range_start) > abs(range_end))
+        {
+            lower_range = range_end;
+            start_lower = false;
+        }
+        else
+        {
+            lower_range = range_start;
+            start_lower = true;
+        }
+        float Opoint = ((l-2*axis_offset)* (float)abs(lower_range) / (float)(range_end - range_start))+axis_offset;
+        Zero_return zero;
+        zero.start_lower = start_lower;
+        zero.Opoint = Opoint;
+        return zero;
+    }
+    void set_middle_offset(float mo)
+    {
+        middle_offset = mo;
     }
 };
 
@@ -96,11 +131,16 @@ void drawFunc(Function& func)
 
 }
 
-void drawAxis(Axis axis)
+void drawAxis(Axis axis, Zero_return zero)
 {
+    float middle = zero.Opoint;
     if (axis.rot == horizontal)
     {
-        S2D_DrawLine(axis.axis_offset, height / 2, width - axis.axis_offset, height / 2,
+        if (zero.start_lower)
+        {
+            middle = height-middle;
+        }
+        S2D_DrawLine(axis.axis_offset, middle+axis.middle_offset, width - axis.axis_offset, middle + axis.middle_offset,
             axis.lineWidth,
             0, 0, 0, 1,
             0, 0, 0, 1,
@@ -109,24 +149,29 @@ void drawAxis(Axis axis)
         
         for (int i = 0; i < axis.coor.size(); i++)
         {
-            S2D_Text* txt = S2D_CreateText("fonts/times-new-roman.ttf", std::to_string(axis.coor[i]).c_str(), 15);
+            S2D_Text* txt = S2D_CreateText("fonts/times-new-roman.ttf", std::to_string(axis.coor[i]).c_str(), 10);
             txt->color.r = 0.0;
             txt->color.g = 0.0;
             txt->color.b = 0.0;
             txt->x = axis.px_coor[i];
-            txt->y = height / 2 + 10;
+            txt->y = middle + 10 + axis.middle_offset;
             if(axis.coor[i]!=0) S2D_DrawText(txt);
-            S2D_DrawLine(axis.px_coor[i], height / 2 + axis.lineWidth + 5, axis.px_coor[i], height / 2 - axis.lineWidth - 5,
+            S2D_DrawLine(axis.px_coor[i], middle + axis.lineWidth + 5 + axis.middle_offset, axis.px_coor[i], middle - axis.lineWidth - 5 + axis.middle_offset,
                 axis.lineWidth / 2,
                 0, 0, 0, 1,
                 0, 0, 0, 1,
                 0, 0, 0, 1,
                 0, 0, 0, 1);
+            S2D_FreeText(txt);
         }
     }
     else
     {
-        S2D_DrawLine(width/2, axis.axis_offset, width/2, height - axis.axis_offset,
+        if (!zero.start_lower)
+        {
+            middle = width - zero.Opoint;
+        }
+        S2D_DrawLine(middle + axis.middle_offset, axis.axis_offset, middle + axis.middle_offset, height - axis.axis_offset,
             axis.lineWidth,
             0, 0, 0, 1,
             0, 0, 0, 1,
@@ -134,19 +179,20 @@ void drawAxis(Axis axis)
             0, 0, 0, 1);
         for (int i = 0; i < axis.coor.size(); i++)
         {
-            S2D_Text* txt = S2D_CreateText("fonts/times-new-roman.ttf", std::to_string(axis.coor[i]).c_str(), 15);
+            S2D_Text* txt = S2D_CreateText("fonts/times-new-roman.ttf", std::to_string(axis.coor[i]).c_str(), 10);
             txt->color.r = 0.0;
             txt->color.g = 0.0;
             txt->color.b = 0.0;
-            txt->x =  width/2 + 10;
+            txt->x =  middle + axis.middle_offset + 10;
             txt->y = height - axis.px_coor[i] - 10;
             if (axis.coor[i] != 0) S2D_DrawText(txt);
-            S2D_DrawLine(width / 2 - axis.lineWidth - 5, axis.px_coor[i], width / 2 + axis.lineWidth + 5, axis.px_coor[i],
+            S2D_DrawLine(middle - axis.lineWidth - 5 + axis.middle_offset, axis.px_coor[i], middle + axis.lineWidth + 5 + axis.middle_offset, axis.px_coor[i],
                 axis.lineWidth / 2,
                 0, 0, 0, 1,
                 0, 0, 0, 1,
                 0, 0, 0, 1,
                 0, 0, 0, 1);
+            S2D_FreeText(txt);
         }
     }
     S2D_Text* txt = S2D_CreateText("fonts/times-new-roman.ttf", axis.name.c_str(), 20);
@@ -162,19 +208,20 @@ void drawAxis(Axis axis)
         
     }
     //S2D_DrawText(txt);
+    S2D_FreeText(txt);
 }
 
 void render()
 {
-
+    
 }
 
 void update()
 {
-    Axis ax1(10,"Y", vertical, -100, 1000);
-    drawAxis(ax1);
-    Axis ax2(5,"time");
-    drawAxis(ax2);
+    Axis ax1(10, "Y", vertical, -1, 1);
+    Axis ax2(20, "time", horizontal, -200, 200);
+    drawAxis(ax1, ax2.CalculateZero());
+    drawAxis(ax2, ax1.CalculateZero());
 }
 
 int main(int argc, char* argv[])
