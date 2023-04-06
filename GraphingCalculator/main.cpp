@@ -93,12 +93,12 @@ public:
             std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
         }
     }
-    Zero_return CalculateZero() 
+    float CalculateZero() 
     {
         int l = (rot == horizontal) ? width : height;
         int lower_range = (abs(range_start) > abs(range_end)) ? range_end : range_start;
         float Opoint = ((l-2*axis_offset)* (float)abs(lower_range) / (float)(range_end - range_start))+axis_offset;
-        
+        return Opoint;
     }
     void set_middle_offset(float mo)
     {
