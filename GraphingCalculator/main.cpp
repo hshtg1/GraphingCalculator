@@ -218,7 +218,7 @@ void render()
 
 void update()
 {
-    Axis ax1(10, "Y", vertical, -1, 1);
+    Axis ax1(2, "Y", vertical, -1, 1);
     Axis ax2(20, "time", horizontal, -200, 200);
     drawAxis(ax1, ax2.CalculateZero());
     drawAxis(ax2, ax1.CalculateZero());
