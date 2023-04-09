@@ -1,20 +1,20 @@
 ﻿  main.cpp
 C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(39,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(90,25): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(125,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(156,36): warning C4244: '=': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(109,25): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(135,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(166,36): warning C4244: '=': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(157,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(186,51): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(187,47): warning C4244: '=': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(167,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(196,51): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(197,47): warning C4244: '=': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(204,40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(205,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(209,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(214,40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(215,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(219,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   GraphingCalculator.vcxproj -> C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\x64\Debug\GraphingCalculator.exe

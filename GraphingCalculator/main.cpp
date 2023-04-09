@@ -52,14 +52,37 @@ struct Zero_return
     bool start_lower;
 };
 
-class Axis
+class Scale 
+{
+protected:
+    int range_start, range_end, scale, n_scale;
+public:
+    Scale(int sc=100,int st=-100,int e = 100)
+    {
+        if (st < e && (!(st + e >= abs(st) + abs(e)) || st == 0))
+        {
+            range_start = st;
+            range_end = e;
+            n_scale = sc;
+        }
+        else if (st + e >= abs(st) + abs(e))
+        {
+            std::cout << "Invalid data! This scale doesn't contain a zero!" << std::endl;
+        }
+        else
+        {
+            std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
+        }
+    }
+};
+
+class Axis : public Scale
 {
     friend void drawAxis(Axis axis, Zero_return zero);
     std::vector<float> px_coor;
     std::vector<int> coor;
-    int n_scale,middle_offset;
+    int middle_offset;
     float lineWidth, px_scale;
-    int range_start, range_end, scale;
     float axis_offset;
     std::string name;
     rotation rot;
@@ -78,26 +101,13 @@ class Axis
     }
 public:
     Axis(int sc = 200, std::string n = "X", rotation rt = horizontal, int st = -100, int e = 100, float aof = 30, int w = 3)
+        :Scale(sc,st,e)
     {
-        if (st < e && (!(st + e >= abs(st) + abs(e)) || st==0))
-        {
-            n_scale = sc;
             name = n;
             rot = rt;
-            range_start = st;
-            range_end = e;
             axis_offset = aof;
             lineWidth = w;
             calculatePoints();
-        }
-        else if(st + e >= abs(st) + abs(e))
-        {
-            std::cout << "Invalid data! This axis doesn't contain a zero!" << std::endl;
-        }
-        else
-        {
-            std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
-        }
     }
     Zero_return CalculateZero() 
     {
@@ -211,11 +221,6 @@ void drawAxis(Axis axis, Zero_return zero)
     }
     S2D_DrawText(txt);
     S2D_FreeText(txt);
-}
-
-void render()
-{
-    
 }
 
 void update()
