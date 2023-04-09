@@ -52,14 +52,37 @@ struct Zero_return
     bool start_lower;
 };
 
-class Axis
+class Scale 
+{
+protected:
+    int range_start, range_end, scale, n_scale;
+public:
+    Scale(int sc=100,int st=-100,int e = 100)
+    {
+        if (st < e && (!(st + e >= abs(st) + abs(e)) || st == 0))
+        {
+            range_start = st;
+            range_end = e;
+            n_scale = sc;
+        }
+        else if (st + e >= abs(st) + abs(e))
+        {
+            std::cout << "Invalid data! This scale doesn't contain a zero!" << std::endl;
+        }
+        else
+        {
+            std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
+        }
+    }
+};
+
+class Axis : public Scale
 {
     friend void drawAxis(Axis axis, Zero_return zero);
     std::vector<float> px_coor;
     std::vector<int> coor;
-    int n_scale,middle_offset;
+    int middle_offset;
     float lineWidth, px_scale;
-    int range_start, range_end, scale;
     float axis_offset;
     std::string name;
     rotation rot;
@@ -78,26 +101,13 @@ class Axis
     }
 public:
     Axis(int sc = 200, std::string n = "X", rotation rt = horizontal, int st = -100, int e = 100, float aof = 30, int w = 3)
+        :Scale(sc,st,e)
     {
-        if (st < e && (!(st + e >= abs(st) + abs(e)) || st==0))
-        {
-            n_scale = sc;
             name = n;
             rot = rt;
-            range_start = st;
-            range_end = e;
             axis_offset = aof;
             lineWidth = w;
             calculatePoints();
-        }
-        else if(st + e >= abs(st) + abs(e))
-        {
-            std::cout << "Invalid data! This axis doesn't contain a zero!" << std::endl;
-        }
-        else
-        {
-            std::cout << "Invalid data! range_start cannot be of a larger value than range_end (or equal)!" << std::endl;
-        }
     }
     Zero_return CalculateZero() 
     {
@@ -201,25 +211,22 @@ void drawAxis(Axis axis, Zero_return zero)
     txt->color.b = 0.0;
     if(axis.rot==horizontal)
     {
-        
+        txt->x = width-axis.axis_offset-30;
+        txt->y = middle - 30;
     }
     else
     {
-        
+        txt->x = middle;
+        txt->y = 0;
     }
-    //S2D_DrawText(txt);
+    S2D_DrawText(txt);
     S2D_FreeText(txt);
-}
-
-void render()
-{
-    
 }
 
 void update()
 {
-    Axis ax1(10, "Y", vertical, -1, 1);
-    Axis ax2(20, "time", horizontal, -200, 200);
+    Axis ax1(2, "Y", vertical, -100, 100);
+    Axis ax2(20, "time", horizontal, 0, 100);
     drawAxis(ax1, ax2.CalculateZero());
     drawAxis(ax2, ax1.CalculateZero());
 }
@@ -239,4 +246,3 @@ int main(int argc, char* argv[])
     S2D_Show(window);
     return 0;
 }
-
