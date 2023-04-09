@@ -14,7 +14,7 @@ C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\ma
           [
               _Ty=float
           ]
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(214,40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(215,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(214,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(215,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\GraphingCalculator\main.cpp(219,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   GraphingCalculator.vcxproj -> C:\Users\Mateusz\source\repos\GraphingCalculator — kopia\x64\Debug\GraphingCalculator.exe

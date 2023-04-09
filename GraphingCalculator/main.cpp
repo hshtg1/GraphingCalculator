@@ -211,8 +211,8 @@ void drawAxis(Axis axis, Zero_return zero)
     txt->color.b = 0.0;
     if(axis.rot==horizontal)
     {
-        txt->x = width-axis.axis_offset-30;
-        txt->y = middle - 30;
+        txt->x = width-axis.axis_offset;
+        txt->y = middle-30;
     }
     else
     {
@@ -226,7 +226,7 @@ void drawAxis(Axis axis, Zero_return zero)
 void update()
 {
     Axis ax1(2, "Y", vertical, -100, 100);
-    Axis ax2(20, "time", horizontal, 0, 100);
+    Axis ax2(20, "X", horizontal, 0, 100);
     drawAxis(ax1, ax2.CalculateZero());
     drawAxis(ax2, ax1.CalculateZero());
 }
@@ -236,7 +236,7 @@ int main(int argc, char* argv[])
     S2D_Window* window = S2D_CreateWindow(
         "Graphing Calculator",  // title of the window
         width, height,        // width and height
-        render, update,  // callback function pointers (these can be NULL)
+        NULL, update,  // callback function pointers (these can be NULL)
         S2D_RESIZABLE              // flags
     );
     window->viewport.mode = S2D_STRETCH;
