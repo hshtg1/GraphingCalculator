@@ -201,13 +201,15 @@ void drawAxis(Axis axis, Zero_return zero)
     txt->color.b = 0.0;
     if(axis.rot==horizontal)
     {
-        
+        txt->x = width-axis.axis_offset-30;
+        txt->y = middle - 30;
     }
     else
     {
-        
+        txt->x = middle;
+        txt->y = 0;
     }
-    //S2D_DrawText(txt);
+    S2D_DrawText(txt);
     S2D_FreeText(txt);
 }
 
@@ -218,8 +220,8 @@ void render()
 
 void update()
 {
-    Axis ax1(2, "Y", vertical, -1, 1);
-    Axis ax2(20, "time", horizontal, -200, 200);
+    Axis ax1(2, "Y", vertical, -100, 100);
+    Axis ax2(20, "time", horizontal, 0, 100);
     drawAxis(ax1, ax2.CalculateZero());
     drawAxis(ax2, ax1.CalculateZero());
 }
@@ -239,4 +241,3 @@ int main(int argc, char* argv[])
     S2D_Show(window);
     return 0;
 }
-
