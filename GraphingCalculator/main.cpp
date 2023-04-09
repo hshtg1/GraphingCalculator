@@ -55,7 +55,7 @@ struct Zero_return
 class Scale 
 {
 protected:
-    int range_start, range_end, scale, n_scale;
+    int range_start, range_end, n_scale;
 public:
     Scale(int sc=100,int st=-100,int e = 100)
     {
@@ -81,7 +81,7 @@ class Axis : public Scale
     friend void drawAxis(Axis axis, Zero_return zero);
     std::vector<float> px_coor;
     std::vector<int> coor;
-    int middle_offset;
+    int middle_offset, scale;
     float lineWidth, px_scale;
     float axis_offset;
     std::string name;
