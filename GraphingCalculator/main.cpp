@@ -6,10 +6,14 @@
 
 class Function;
 class Scale;
-void render();
 void update();
 
 const int width = 800, height = 600;
+
+enum mode
+{
+    point, line
+};
 
 enum rotation
 {
@@ -96,7 +100,7 @@ struct Point
 
 class Function
 {
-    friend void drawFunc(Function &func, int r, int g, int b, int a);
+    friend void drawFunc(Function &func, mode mod, float width, int r, int g, int b, int a);
     int n_points;
     std::vector<Point> points;
     Scale scale_x, scale_y;
@@ -124,7 +128,6 @@ public:
                 Point p(px, py);
                 points.push_back(p);
             }
-            //std::cout << "p" << i << ": " << px << ", " << y << std::endl;
         }
     }
 };
@@ -167,13 +170,20 @@ public:
     }
 };
 
-void drawFunc(Function &func, int r, int g, int b, int a)
+void drawFunc(Function& func, mode mod = point, float width = 2, int r = 0, int g = 0, int b = 0, int a = 1)
 {
     float zero_x = func.scale_x.CalculateZero().Opoint;
     float zero_y = func.scale_y.CalculateZero().Opoint;
+    
     for (int i = 0; i < func.points.size(); i++)
     {
-        S2D_DrawCircle(zero_x+func.points[i].x, height-zero_y-func.points[i].y, 2, 1000, r,g,b,a);
+        if (mod == point) S2D_DrawCircle(zero_x + func.points[i].x, height - zero_y - func.points[i].y, width, 100, r, g, b, a);
+        else if (i > 0)
+        {
+            S2D_DrawLine(zero_x + func.points[i - 1].x, height - zero_y - func.points[i - 1].y,
+                zero_x + func.points[i].x, height - zero_y - func.points[i].y, width,
+                r, g, b, a, r, g, b, a, r, g, b, a, r, g, b, a);
+        }
     }
 }
 
@@ -298,7 +308,7 @@ class Trig1 : public Function
 public:
     virtual valid_float func(float x)
     {
-        float y = sin(x*2*M_PI/360.0);
+        float y = sin(x*2.0*M_PI/360.0);
         return valid_float(y, true);;
     }
     using Function::Function;
@@ -322,7 +332,7 @@ public:
 void update()
 {
     Axis ax1(2, "Y", vertical, -1, 1);
-    Axis ax2(2, "X", horizontal, -10, 10);
+    Axis ax2(20, "t", horizontal, -10, 10);
     drawAxis(ax1, ax2.CalculateZero());
     drawAxis(ax2, ax1.CalculateZero());
     //Scale sc1(horizontal,0,10);
@@ -341,7 +351,7 @@ void update()
     drawFunc(trig1, 0, 0, 0, 1);*/
     Rational1 rat1(5000);
     rat1.calculate_points(ax2, ax1);
-    drawFunc(rat1, 0, 0, 0, 1);
+    drawFunc(rat1,line,1);
 }
 
 int main(int argc, char* argv[])
